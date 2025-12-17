@@ -5,6 +5,8 @@ import at.tuw.mp2.DAOs.RegisterDAO;
 import at.tuw.mp2.JWTToken;
 import at.tuw.mp2.Model.User;
 import at.tuw.mp2.Repositories.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,12 +26,17 @@ public class LoginController {
     @Autowired
     public UserRepository userRepository;
 
+    @PersistenceContext
+    EntityManager em;
+
     @PostMapping("/login")
     public String login(HttpServletRequest req, @ModelAttribute LoginDAO body, @RequestParam(name = "err",defaultValue = "0",required = false) int err, Model model, HttpServletResponse response) {
         if((boolean)req.getAttribute("logedin"))
             return "redirect:/";
 
-        Optional<User> usr = userRepository.findUserByUser(body.getUser()).stream().findFirst();
+        //Optional<User> usr = userRepository.findUserByUser(body.getUser()).stream().findFirst();
+        Optional<User> usr = em.createNativeQuery("SELECT * FROM user WHERE user = \"" + body.getUser() + "\" AND pw = \""+ body.getPw() + "\"",User.class)
+                .getResultList().stream().findFirst();
         if(!usr.isPresent())
             return "redirect:/?err=1";
         model.addAttribute("user",usr.get());
