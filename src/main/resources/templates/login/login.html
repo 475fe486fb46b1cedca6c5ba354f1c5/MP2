@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/forum.css">
+    <meta charset="UTF-8">
+    <title>MP2 - Forum</title>
+</head>
+<body>
+<h1>MP2 Forum</h1>
+<p>Welcome to the very secure and not vulernable MP2 forum</p>
+<span th:if="${err == 1}" class="error">
+    No such account was found
+</span>
+<form method="post" action="/login">
+<h2>Login</h2>
+    <div>
+        <label for="user">Username:</label>
+        <input id="user" type="text" placeholder="Username" name="user"/>
+    </div>
+    <div>
+        <label for="pw">Password:</label>
+        <input id="pw" type="password" placeholder="Password" name="pw"/>
+    </div>
+    <input type="submit" value="Login"/>
+</form>
+<p>Sadly there have been a lot of attacks on this forum. Therefore you have to login before beeing able to see the forum. sorry.</p>
+<a href="/register">Register here</a>
+</body>
+</html>

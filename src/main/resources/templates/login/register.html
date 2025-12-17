@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/forum.css">
+    <meta charset="UTF-8">
+    <title>MP2 - Register</title>
+</head>
+<body>
+<h1>MP2 Forum Registration</h1>
+<p>Become a member of the most secure and trustworthy forum there is on the internet (or intranet)</p>
+<span th:if="${err == 1}" class="error">
+    Please ensure that the repeated password is equal to your chosen password
+</span>
+<form method="post" action="/register">
+    <h2>Registration</h2>
+    <div>
+        <label for="user">Username:</label>
+        <input id="user" type="text" placeholder="Username" name="user"/>
+    </div>
+    <div>
+        <label for="pw">Password:</label>
+        <input id="pw" type="password" placeholder="Password" name="pw"/>
+    </div>
+    <div>
+        <label for="pwrep">Repeated Password:</label>
+        <input id="pwrep" type="password" placeholder="Password" name="pwrep"/>
+    </div>
+    <input type="submit" value="Register"/>
+</form>
+</body>
+</html>

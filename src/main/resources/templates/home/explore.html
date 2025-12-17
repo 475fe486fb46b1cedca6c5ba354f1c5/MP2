@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/forum.css">
+  <meta charset="UTF-8">
+  <title>MP2 - Forum</title>
+</head>
+<body>
+  <div th:replace="/home/header :: header(${module})"></div>
+
+<div class="content">
+<h1>Threads</h1>
+<table>
+  <tr th:each="t : ${threads}">
+    <td>
+      <h3 th:text="${t.getHd()}"/>
+    </td>
+    <td><a th:href="|/thread?id=${t.getId()}|">Open</a></td>
+  </tr>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/forum.css">
+</head>
+<body>
+<div class="header" th:fragment="header(module)">
+    <div th:each="hd : ${T(at.tuw.mp2.DAOs.Header).values()}" th:classappend='${hd == module ? "current" : ""}'>
+        <a th:href="${hd.getPath()}" th:text="${hd.getValue()}">Home</a>
+    </div>
+</div>
+</body>
+</html>

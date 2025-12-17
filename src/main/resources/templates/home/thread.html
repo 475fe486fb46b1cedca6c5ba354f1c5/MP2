@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/forum.css">
+  <link rel="stylesheet" href="/thread.css">
+  <meta charset="UTF-8">
+  <title th:text="|MP2 - ${thread.getHd()}|">MP2 - Forum</title>
+</head>
+<body>
+<div th:replace="/home/header :: header(${module})"></div>
+
+<div class="content">
+  <div class="thread">
+    <div class="threadpost">
+      <h3 th:text="${thread.getHd()}"/>
+      <p th:text="${thread.getBody()}"/>
+      <div class="author" th:text="|Created by ${thread.getCreator().getUser()}|"/>
+      <div class="editbar" th:if="${creator}">
+        <div class="edit">
+          <a th:href="|/edit?id=${thread.getId()}|">Edit</a>
+        </div>
+        <div class="delete">
+          <a th:href="|/delete?id=${thread.getId()}|">Delete</a>
+        </div>
+      </div>
+    </div>
+    <form class="comment-form" th:action="|/comment?id=${thread.getId()}|" method="post">
+      <textarea name="comment">
+      </textarea>
+      <input type="submit" value="Comment">
+    </form>
+    <div class="comments">
+      <div th:each="comment : ${thread.getComments()}">
+        <p th:text="${comment.getText()}"/>
+        <div class="commentor" th:text="|Created by ${comment.getCommentor().getUser()}|"/>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

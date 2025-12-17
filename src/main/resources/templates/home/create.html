@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/forum.css">
+  <meta charset="UTF-8">
+  <title>MP2 - Forum</title>
+</head>
+<body>
+  <div th:replace="/home/header :: header(${module})"></div>
+
+<div class="content">
+  <form method="post" action="/create">
+    <h1>Create new Threat</h1>
+    <div>
+      <label for="header">
+        Title:
+      </label>
+      <input id="header" name="header" type="text">
+    </div>
+    <div>
+      <label for="content">
+        Body:
+      </label>
+      <textarea id="content" name="content">
+      </textarea>
+    </div>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+</body>
+</html>

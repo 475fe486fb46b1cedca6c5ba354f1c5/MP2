@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/forum.css">
+  <meta charset="UTF-8">
+  <title>MP2 - Forum</title>
+</head>
+<body>
+  <div th:replace="/home/header :: header(${module})"></div>
+<div class="content">
+<h1 th:text="|Hello ${user.getUser()} !|" />
+<p th:text="|You have created ${user.getThreads().size()} Threads and commented ${user.getComments().size()} times|" />
+</div>
+</body>
+</html>
