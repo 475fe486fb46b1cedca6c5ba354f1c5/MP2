@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -115,5 +116,64 @@ public class ThreadsController {
         commentRepository.save(cmd);
 
         return "redirect:/thread?id=" + id;
+    }
+
+    @GetMapping("delete")
+    public String delete(HttpServletRequest req,Model model,@RequestParam(name = "id",required = true) int id) {
+        if(!(boolean)req.getAttribute("logedin"))
+            return "redirect:/";
+
+        User usr = userRepository.findUserByUser((String)req.getAttribute("username")).stream().findFirst().get();
+        Optional<Thread> oth = threadRepository.findById(id);
+        if(!oth.isPresent())
+            return "redirect:/?err=3";
+        Thread th = oth.get();
+
+        if(!Objects.equals(th.getCreator().getId(), usr.getId()))
+            return "redirect:/?err=2";
+
+        threadRepository.delete(th);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("edit")
+    public String edit(HttpServletRequest req,Model model,@RequestParam(name = "id",required = true) int id) {
+        if(!(boolean)req.getAttribute("logedin"))
+            return "redirect:/";
+        User usr = userRepository.findUserByUser((String)req.getAttribute("username")).stream().findFirst().get();
+        Optional<Thread> oth = threadRepository.findById(id);
+        if(!oth.isPresent())
+            return "redirect:/";
+        Thread th = oth.get();
+
+        if(!Objects.equals(th.getCreator().getId(), usr.getId()))
+            return "redirect:/";
+
+        model.addAttribute("user", usr);
+        model.addAttribute("thread", th);
+        model.addAttribute("module", null);
+        model.addAttribute("creator",th.getCreator().getId() == usr.getId());
+        return "home/edit";
+    }
+
+    @PostMapping("edit")
+    public String edit(HttpServletRequest req,@ModelAttribute ThreadDAO body) {
+        if(!(boolean)req.getAttribute("logedin"))
+            return "redirect:/";
+        User usr = userRepository.findUserByUser((String)req.getAttribute("username")).stream().findFirst().get();
+        Optional<Thread> oth = threadRepository.findById(body.getId());
+        if(!oth.isPresent())
+            return "redirect:/";
+        Thread th = oth.get();
+
+        if(!Objects.equals(th.getCreator().getId(), usr.getId()))
+            return "redirect:/";
+
+        th.setHd(body.getHeader());
+        th.setBody(body.getContent());
+
+        threadRepository.save(th);
+        return "redirect:/thread?id=" + th.getId();
     }
 }
